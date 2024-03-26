@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+    New
+{% endblock title %}
+
+{% block content %}
+    <h1>{{ new.title|censor }}</h1>
+    <p align="justify">{{ new.text|capfirst|censor }}</p>
+    <hr>
+    <p align="left">Опубликовано: {{ new.post_data_time|date:"d.m.y" }}</p>
+{% endblock content %}

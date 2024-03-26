@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<h1>Новости</h1>
+<hr>
+{% for new in news %}
+
+<h3 align="left"><a href="{{new.id}}", style="color: black">{{ new.title|censor }}</a>></h3>
+   <p align="left">Опубликовано: {{ new.post_data_time|date:"d.m.y" }}</p>
+   <p align="justify">{{ new.text|truncatechars:20|capfirst|censor }}</p>
+   <hr>
+{% endfor %}
+
+{% endblock content %}
