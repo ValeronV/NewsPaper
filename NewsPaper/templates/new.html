@@ -1,5 +1,4 @@
 {% extends 'flatpages/default.html' %}
-
 {% load custom_filters %}
 
 {% block title %}
@@ -7,7 +6,16 @@
 {% endblock title %}
 
 {% block content %}
+
     <h1>{{ new.title|censor }}</h1>
+    <ul>
+        <button>
+            <a href="/{{ new.post_type }}/{{ new.id }}/edit/" style="color: black; text-decoration: none">Редактировать</a>
+        </button>
+        <button>
+            <a href="/{{ new.post_type }}/{{ new.id }}/delete/" style="color: black; text-decoration: none">Удалить</a>
+        </button>
+    </ul>
     <p align="justify">{{ new.text|capfirst|censor }}</p>
     <hr>
     <p align="left">Опубликовано: {{ new.post_data_time|date:"d.m.y" }}</p>

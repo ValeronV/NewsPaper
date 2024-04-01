@@ -4,13 +4,38 @@
 
 {% block content %}
 <h1>Новости</h1>
+<ul>
+<button>
+   <a href="/news/create/" style="color: black; text-decoration: none">Создать новость</a>
+</button>
+<button>
+   <a href="/articles/create/" style="color: black; text-decoration: none">Создать статью</a>
+</button>
+<ul/>
 <hr>
 {% for new in news %}
-
-<h3 align="left"><a href="{{new.id}}", style="color: black">{{ new.title|censor }}</a>></h3>
+<h3 align="left"><a href="/{{ new.post_type }}/{{ new.id }}" style="color: black; text-decoration: none">{{ new.title|censor }}</a>></h3>
    <p align="left">Опубликовано: {{ new.post_data_time|date:"d.m.y" }}</p>
    <p align="justify">{{ new.text|truncatechars:20|capfirst|censor }}</p>
    <hr>
 {% endfor %}
+
+{% if page_obj.has_previous %}
+   <a href="?page=1">1</a>
+   {% if page_obj.previous_page_number != 1 %}
+      ...
+      <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+   {% endif %}
+{% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+   <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+   {% if paginator.num_pages != page_obj.next_page_number %}
+      ...
+      <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+   {% endif %}
+{% endif %}
 
 {% endblock content %}
