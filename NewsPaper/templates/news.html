@@ -1,24 +1,31 @@
 {% extends 'flatpages/default.html' %}
 
 {% load custom_filters %}
-
+{% csrf_token %}
 {% block content %}
 <h1>Новости</h1>
-<ul>
-<button>
-   <a href="/news/create/" style="color: black; text-decoration: none">Создать новость</a>
-</button>
-<button>
-   <a href="/articles/create/" style="color: black; text-decoration: none">Создать статью</a>
-</button>
-<ul/>
+{% if perms.news.add_post %}
+   <ul>
+   <button>
+      <a href="/news/create/" style="color: black; text-decoration: none">Создать новость</a>
+   </button>
+   <button>
+      <a href="/articles/create/" style="color: black; text-decoration: none">Создать статью</a>
+   </button>
+   </ul>
+{% endif %}
 <hr>
-{% for new in news %}
+   {% if news %}
+   {% for new in news %}
 <h3 align="left"><a href="/{{ new.post_type }}/{{ new.id }}" style="color: black; text-decoration: none">{{ new.title|censor }}</a>></h3>
    <p align="left">Опубликовано: {{ new.post_data_time|date:"d.m.y" }}</p>
    <p align="justify">{{ new.text|truncatechars:20|capfirst|censor }}</p>
    <hr>
-{% endfor %}
+   {% endfor %}
+
+   {% else %}
+   <p>Постов нет</p>
+   {% endif %}
 
 {% if page_obj.has_previous %}
    <a href="?page=1">1</a>
@@ -37,5 +44,4 @@
       <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
    {% endif %}
 {% endif %}
-
 {% endblock content %}

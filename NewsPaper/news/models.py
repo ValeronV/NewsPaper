@@ -49,7 +49,7 @@ class Post(models.Model):
         print(self.text[0:123]+"...")
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.id)])
+        return reverse('post_detail', args=[str(self.post_type), str(self.id)])
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

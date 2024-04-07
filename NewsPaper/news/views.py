@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import *
 from .filters import PostFilter
@@ -34,17 +35,21 @@ class NewDetail(DetailView):
     def get_type(self):
         return reverse('post_detail', kwargs={'slug': self.slug})
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
+    raise_exception = True
+
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
-class PostUpdate(UpdateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'post_edit.html'
-
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('news')

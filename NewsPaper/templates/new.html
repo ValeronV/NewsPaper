@@ -9,12 +9,16 @@
 
     <h1>{{ new.title|censor }}</h1>
     <ul>
+        {% if perms.news.change_post %}
         <button>
             <a href="/{{ new.post_type }}/{{ new.id }}/edit/" style="color: black; text-decoration: none">Редактировать</a>
         </button>
+        {% endif %}
+        {% if perms.news.delete_post %}
         <button>
             <a href="/{{ new.post_type }}/{{ new.id }}/delete/" style="color: black; text-decoration: none">Удалить</a>
         </button>
+        {% endif %}
     </ul>
     <p align="justify">{{ new.text|capfirst|censor }}</p>
     <hr>
